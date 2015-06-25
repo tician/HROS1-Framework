@@ -59,7 +59,7 @@ int BulkReadData::ReadWord(int address)
 CM730::CM730(PlatformCM730 *platform)
 {
 	m_Platform = platform;
-	DEBUG_PRINT = true;
+	DEBUG_PRINT = false;
 	m_DelayedWords = 0;
 	m_bIncludeTempData = false;
 	m_BulkReadTxPacket[LENGTH] = 0;
