@@ -327,9 +327,6 @@ void MotionManager::Process()
                         MotionStatus::m_CurrentJoints.SetSlope(id, (*i)->m_Joint.GetCWSlope(id), (*i)->m_Joint.GetCCWSlope(id));
                         MotionStatus::m_CurrentJoints.SetValue(id, (*i)->m_Joint.GetValue(id));
 
-                        // MotionStatus::m_CurrentJoints.SetPGain(id, (*i)->m_Joint.GetPGain(id));
-                        // MotionStatus::m_CurrentJoints.SetIGain(id, (*i)->m_Joint.GetIGain(id));
-                        // MotionStatus::m_CurrentJoints.SetDGain(id, (*i)->m_Joint.GetDGain(id));
                     }
                 }
             }
@@ -400,7 +397,7 @@ void MotionManager::Process()
     if(m_torque_count != DEST_TORQUE && --m_torqueAdaptionCounter == 0)
     {
         m_torqueAdaptionCounter = TORQUE_ADAPTION_CYCLES;
-        adaptTorqueToVoltage();
+//        adaptTorqueToVoltage();
     }
 }
 
@@ -415,7 +412,6 @@ void MotionManager::AddModule(MotionModule *module)
 {
 	module->Initialize();
 	m_Modules.push_back(module);
-
 }
 
 void MotionManager::RemoveModule(MotionModule *module)

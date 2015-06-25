@@ -59,7 +59,7 @@ int BulkReadData::ReadWord(int address)
 CM730::CM730(PlatformCM730 *platform)
 {
 	m_Platform = platform;
-	DEBUG_PRINT = false;
+	DEBUG_PRINT = true;
 	m_DelayedWords = 0;
 	m_bIncludeTempData = false;
 	m_BulkReadTxPacket[LENGTH] = 0;
@@ -460,7 +460,7 @@ int CM730::BulkRead()
         return TxRxPacket(m_BulkReadTxPacket, rxpacket, 0);
     else
     {
-				MakeBulkReadPacket();
+		MakeBulkReadPacket();
         return TX_FAIL;
     }
 }
@@ -492,6 +492,17 @@ bool CM730::Connect()
 	}
 
 	return DXLPowerOn();
+}
+
+bool CM730::ChangeBaud(int baud)
+{
+    if(m_Platform->SetBaud(baud) == false)
+    {
+        fprintf(stderr, "\n Fail to change baudrate\n");
+        return false;
+    }
+
+    return DXLPowerOn();
 }
 
 bool CM730::DXLPowerOn(bool state)
