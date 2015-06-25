@@ -346,7 +346,7 @@ void MotionManager::Process()
 
                 param[n++] = CM730::GetLowByte(MotionStatus::m_CurrentJoints.GetValue(id) + m_Offset[id]);
                 param[n++] = CM730::GetHighByte(MotionStatus::m_CurrentJoints.GetValue(id) + m_Offset[id]);
-								joint_num++;
+				joint_num++;
             }
 
             if(DEBUG_PRINT == true)
