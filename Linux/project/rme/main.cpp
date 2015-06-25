@@ -83,9 +83,16 @@ int main(int argc, char *argv[])
         exit(0);
     }
 	   MotionManager::GetInstance()->LoadINISettings(ini);
-       MotionManager::GetInstance()->SetEnable(false);
+//       MotionManager::GetInstance()->SetEnable(true);
        MotionManager::GetInstance()->AddModule((MotionModule*)Action::GetInstance());	
-       linuxMotionTimer.Initialize(MotionManager::GetInstance());
+ 
+    Head::GetInstance()->m_Joint.SetEnableBody(false);
+    Walking::GetInstance()->m_Joint.SetEnableBody(false);
+    Action::GetInstance()->m_Joint.SetEnableBody(true);
+
+MotionManager::GetInstance()->SetEnable(true);
+
+      linuxMotionTimer.Initialize(MotionManager::GetInstance());
        linuxMotionTimer.Stop();
 		//MotionManager::GetInstance()->StopThread();
     /////////////////////////////////////////////////////////////////////
