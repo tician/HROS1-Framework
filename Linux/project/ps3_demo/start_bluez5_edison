@@ -1,0 +1,7 @@
+#!/bin/sh -e
+killall demo &
+rfkill block bluetooth &
+sleep 2
+./demo &
+sleep 3
+rfkill unblock bluetooth &
