@@ -179,7 +179,7 @@ int main(int argc, char *argv[])
     Walking::GetInstance()->m_Joint.SetEnableBody(false);
     Head::GetInstance()->m_Joint.SetEnableBody(false);
     Action::GetInstance()->m_Joint.SetEnableBody(true);
-    MotionManager::GetInstance()->SetEnable(true);
+    MotionManager::GetInstance()->SetEnable(false);
     Walking::GetInstance()->LoadINISettings(ini);
     MotionManager::GetInstance()->LoadINISettings(ini);
               
@@ -200,7 +200,7 @@ int main(int argc, char *argv[])
 			}
 		else
 			{
-//			Head::GetInstance()->m_Joint.SetEnableBody(false);
+//				Head::GetInstance()->m_Joint.SetEnableBody(false);
 //   			Walking::GetInstance()->m_Joint.SetEnableBody(false);
 //    			Action::GetInstance()->m_Joint.SetEnableBody(true);
 			

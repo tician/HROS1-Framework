@@ -119,7 +119,7 @@ void StatusCheck::Check(CM730 &cm730)
 			int lastMode = m_cur_mode;
 			m_cur_mode = SOCCER;      
 //	MotionManager::GetInstance()->Reinitialize();
-//    MotionManager::GetInstance()->SetEnable(true);
+    MotionManager::GetInstance()->SetEnable(true);
     m_is_started = 1;
     bLJState = bRJState = false;
     Head::GetInstance()->m_Joint.SetEnableBody(false);
