@@ -97,7 +97,7 @@ void StatusCheck::Check(CM730 &cm730)
 
       Walking::GetInstance()->m_Joint.SetEnableBody(false);
       Action::GetInstance()->m_Joint.SetEnableBodyWithoutHead(true);
-      while(Action::GetInstance()->Start(16) == false) usleep(8000);
+      while(Action::GetInstance()->Start(15) == false) usleep(8000);
       while(Action::GetInstance()->IsRunning() == true) usleep(8000);
       Head::GetInstance()->m_Joint.SetEnableHeadOnly(true);
 		while(PS3.key.Cross != 0) usleep(8000);			
@@ -118,7 +118,7 @@ void StatusCheck::Check(CM730 &cm730)
 			while(Walking::GetInstance()->IsRunning() == 1) usleep(8000);
 			int lastMode = m_cur_mode;
 			m_cur_mode = SOCCER;      
-	MotionManager::GetInstance()->Reinitialize();
+//  MotionManager::GetInstance()->Reinitialize();
     MotionManager::GetInstance()->SetEnable(true);
     m_is_started = 1;
     bLJState = bRJState = false;

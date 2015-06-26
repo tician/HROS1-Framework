@@ -70,7 +70,7 @@ bool MotionManager::Initialize(CM730 *cm730, bool fadeIn)
 		
 		if(m_CM730->ReadWord(id, MX28::P_PRESENT_POSITION_L, &value, &error) == CM730::SUCCESS)
 		{
-			MotionStatus::m_CurrentJoints.SetValue(id, value);
+			MotionStatus::m_CurrentJoints.SetValue(id, (value-m_Offset[id]));
 			MotionStatus::m_CurrentJoints.SetEnable(id, true);
 
 			if(DEBUG_PRINT == true)
@@ -87,8 +87,8 @@ bool MotionManager::Initialize(CM730 *cm730, bool fadeIn)
 
 	if(fadeIn)
 	{
-		for(int i=JointData::ID_R_SHOULDER_PITCH; i<JointData::NUMBER_OF_JOINTS; i++)
-			cm730->WriteWord(i, MX28::P_TORQUE_LIMIT_L, 0, 0);
+//		for(int i=JointData::ID_R_SHOULDER_PITCH; i<JointData::NUMBER_OF_JOINTS; i++)
+//			cm730->WriteWord(i, MX28::P_TORQUE_LIMIT_L, 0, 0);
 	}
 
 	m_fadeIn = fadeIn;
@@ -115,7 +115,7 @@ bool MotionManager::Reinitialize()
 		
 		if(m_CM730->ReadWord(id, MX28::P_PRESENT_POSITION_L, &value, &error) == CM730::SUCCESS)
 		{
-			MotionStatus::m_CurrentJoints.SetValue(id, value);
+			MotionStatus::m_CurrentJoints.SetValue(id, (value-m_Offset[id]));
 			MotionStatus::m_CurrentJoints.SetEnable(id, true);
 
 			if(DEBUG_PRINT == true)
@@ -346,7 +346,7 @@ void MotionManager::Process()
 
                 param[n++] = CM730::GetLowByte(MotionStatus::m_CurrentJoints.GetValue(id) + m_Offset[id]);
                 param[n++] = CM730::GetHighByte(MotionStatus::m_CurrentJoints.GetValue(id) + m_Offset[id]);
-				joint_num++;
+                joint_num++;
             }
 
             if(DEBUG_PRINT == true)

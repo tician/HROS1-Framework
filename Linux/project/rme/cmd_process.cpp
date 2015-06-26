@@ -1096,10 +1096,9 @@ void PlayCmd(CM730 *cm730,int pageNum)
 	}
 	PrintCmd("Playing... ('s' to stop, 'b' to brake)");
 
-	//MotionManager::GetInstance()->StartThread();
 	linuxMotionTimer.Start();
 	Action::GetInstance()->m_Joint.SetEnableBody(true, true);
-//	MotionManager::GetInstance()->SetEnable(true);
+	MotionManager::GetInstance()->SetEnable(true);
 	if(Action::GetInstance()->Start(pageNum, &Page) == false)
 	{
 		PrintCmd("Failed to play this page!");

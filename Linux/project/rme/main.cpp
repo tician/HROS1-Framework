@@ -11,14 +11,13 @@
 
 #define MOTION_FILE_PATH    "../../../Data/motion_4096.bin"
 
-#define INI_FILE_PATH       "../../../Data/config.ini"
+//#define INI_FILE_PATH       "../../../Data/config.ini"
 
 using namespace Robot;
 
 LinuxCM730 linux_cm730("/dev/ttyUSB0");
 CM730 cm730(&linux_cm730);
 LinuxMotionTimer linuxMotionTimer;
-
 
 void change_current_dir()
 {
@@ -47,7 +46,7 @@ int main(int argc, char *argv[])
     int ch;
     char filename[128];
 
-    minIni* ini = new minIni(INI_FILE_PATH);
+//    minIni* ini = new minIni(INI_FILE_PATH);
 
     change_current_dir();
     if(argc < 2)
@@ -82,17 +81,9 @@ int main(int argc, char *argv[])
         printf("Initializing Motion Manager failed!\n");
         exit(0);
     }
-	   MotionManager::GetInstance()->LoadINISettings(ini);
-//       MotionManager::GetInstance()->SetEnable(true);
+       MotionManager::GetInstance()->SetEnable(false);
        MotionManager::GetInstance()->AddModule((MotionModule*)Action::GetInstance());	
- 
-    Head::GetInstance()->m_Joint.SetEnableBody(false);
-    Walking::GetInstance()->m_Joint.SetEnableBody(false);
-    Action::GetInstance()->m_Joint.SetEnableBody(true);
-
-MotionManager::GetInstance()->SetEnable(true);
-
-      linuxMotionTimer.Initialize(MotionManager::GetInstance());
+       linuxMotionTimer.Initialize(MotionManager::GetInstance());
        linuxMotionTimer.Stop();
 		//MotionManager::GetInstance()->StopThread();
     /////////////////////////////////////////////////////////////////////

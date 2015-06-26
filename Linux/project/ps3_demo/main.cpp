@@ -68,6 +68,7 @@ int main(int argc, char *argv[])
 
     Walking::GetInstance()->LoadINISettings(ini);
 	usleep(100);
+	MotionManager::GetInstance()->LoadINISettings(ini);
 
     MotionManager::GetInstance()->AddModule((MotionModule*)Action::GetInstance());
     MotionManager::GetInstance()->AddModule((MotionModule*)Head::GetInstance());
@@ -78,7 +79,6 @@ int main(int argc, char *argv[])
 	linuxMotionTimer.Start();
    /////////////////////////////////////////////////////////////////////
 
-   MotionManager::GetInstance()->LoadINISettings(ini);
 
     int firm_ver = 0,retry=0;
     //important but allow a few retries
@@ -97,7 +97,12 @@ int main(int argc, char *argv[])
         exit(0);
 
 
-    Action::GetInstance()->m_Joint.SetEnableBody(true, true);
+    Walking::GetInstance()->m_Joint.SetEnableBody(false);
+    Head::GetInstance()->m_Joint.SetEnableBody(false);
+    Action::GetInstance()->m_Joint.SetEnableBody(true);
+//    Action::GetInstance()->m_Joint.SetEnableBody(true, true);
+    MotionManager::GetInstance()->Reinitialize();
+    
     MotionManager::GetInstance()->SetEnable(true);
               
 
