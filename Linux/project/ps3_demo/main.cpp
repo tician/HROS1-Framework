@@ -66,9 +66,9 @@ int main(int argc, char *argv[])
         }
     }
 
-    Walking::GetInstance()->LoadINISettings(ini);
+//    Walking::GetInstance()->LoadINISettings(ini);
 	usleep(100);
-    MotionManager::GetInstance()->LoadINISettings(ini);
+//    MotionManager::GetInstance()->LoadINISettings(ini);
 
     MotionManager::GetInstance()->AddModule((MotionModule*)Action::GetInstance());
     MotionManager::GetInstance()->AddModule((MotionModule*)Head::GetInstance());
@@ -79,7 +79,7 @@ int main(int argc, char *argv[])
 		linuxMotionTimer.Initialize(MotionManager::GetInstance());
 		linuxMotionTimer.Start();
    /////////////////////////////////////////////////////////////////////
-//	MotionManager::GetInstance()->LoadINISettings(ini);
+//   MotionManager::GetInstance()->LoadINISettings(ini);
 
     int firm_ver = 0,retry=0;
     //important but allow a few retries
@@ -173,20 +173,22 @@ int main(int argc, char *argv[])
     Action::GetInstance()->Start(15);
     while(Action::GetInstance()->IsRunning()) usleep(8*1000);
 */
-		Walking::GetInstance()->LoadINISettings(ini);   
-MotionManager::GetInstance()->LoadINISettings(ini); 
+//		Walking::GetInstance()->LoadINISettings(ini);   
+//		MotionManager::GetInstance()->LoadINISettings(ini); 
 
     Walking::GetInstance()->m_Joint.SetEnableBody(false);
     Head::GetInstance()->m_Joint.SetEnableBody(false);
     Action::GetInstance()->m_Joint.SetEnableBody(true);
     MotionManager::GetInstance()->SetEnable(true);
+    Walking::GetInstance()->LoadINISettings(ini);
+    MotionManager::GetInstance()->LoadINISettings(ini);
               
 
-    cm730.WriteByte(CM730::P_LED_PANNEL, 0x02, NULL);
+//    cm730.WriteByte(CM730::P_LED_PANNEL, 0x02, NULL);
 
     if(PS3Controller_Start() == 0)
 			printf("PS3 controller not installed.\n");
-		cm730.WriteWord(CM730::P_LED_HEAD_L, cm730.MakeColor(1,1,1),0);
+/*		cm730.WriteWord(CM730::P_LED_HEAD_L, cm730.MakeColor(1,1,1),0);
 		//determine current position
 		StatusCheck::m_cur_mode = GetCurrentPosition(cm730);
 		//LinuxActionScript::PlayMP3("../../../Data/mp3/ready.mp3");
@@ -198,9 +200,14 @@ MotionManager::GetInstance()->LoadINISettings(ini);
 			}
 		else
 			{
-			Action::GetInstance()->Start(15);
-			while(Action::GetInstance()->IsRunning()) usleep(8*1000);
+//			Head::GetInstance()->m_Joint.SetEnableBody(false);
+//   			Walking::GetInstance()->m_Joint.SetEnableBody(false);
+//    			Action::GetInstance()->m_Joint.SetEnableBody(true);
+			
+//			Action::GetInstance()->Start(15);
+//			while(Action::GetInstance()->IsRunning()) usleep(8*1000);
 			}
+*/
     while(1)
 			{
       StatusCheck::Check(cm730);
