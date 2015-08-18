@@ -64,7 +64,7 @@ OBJS = $(CSRCS:.c=.c.o) $(CXXSRCS:.cpp=.cpp.o)
 #COBJS = $(addprefix $(OBJDIR)/, $(CSRCS:.c=.o) )
 #CXXOBJS = $(addprefix $(OBJDIR)/, $(CXXSRCS:.cpp=.o) )
 
-DEPS = $(OBJS:.o,.d)
+DEPS = $(OBJS:.o=.d)
 
 #~~~~~~~~~~~~~~~~~~~~ Include Directories ~~~~~~~~~~~~~~~~~~~~
 INCLUDE_DIRS = -I. -I$(VPATH)/framework/include -I$(VPATH)/linux/include
@@ -256,7 +256,8 @@ clean_list:
 #	rm -rf $(BINDIR)
 #	rm -rf .dep
 
-install: really_install clean
+#install: really_install clean
+install: really_install
 
 really_install:
 #	mv $(TARGET) ../$(TARGET)
