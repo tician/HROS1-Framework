@@ -29,7 +29,7 @@ clean:
 #distclean: clean libclean
 
 hros1.a:
-	@[ -f '../../lib/hros1.a' ] || ( make -C ../../src/hros1 && make -C ../../src/hros1 install )
+	@[ -f '../../lib/hros1.a' ] || ( make -C ../../src/hros1 && make -C ../../src/hros1 install && make -C ../../src/hros1 clean )
 
 $(TARGET): $(OBJECTS) hros1.a
 	$(CXX) $(CFLAGS) $(OBJECTS) ../../lib/hros1.a -o $(TARGET) $(LFLAGS)

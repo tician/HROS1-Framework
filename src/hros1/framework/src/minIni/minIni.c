@@ -85,7 +85,7 @@
 typedef enum {
   QUOTE_NONE,
   QUOTE_ENQUOTE,
-  QUOTE_DEQUOTE,
+  QUOTE_DEQUOTE
 }quote_option;
 
 static TCHAR *skipleading(const TCHAR *str)
