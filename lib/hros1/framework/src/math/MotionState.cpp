@@ -8,18 +8,18 @@ MotionState::MotionState()
 	a = 0;
 }
 
-MotionState::MotionState(double t, double x, double v)
+MotionState::MotionState(double T, double X, double V)
 {
-	this->t = t;
-	this->x = x;
-	this->v = v;
+	this->t = T;
+	this->x = X;
+	this->v = V;
 	a = 0;
 }
 
-void MotionState::set(double x, double v)
+void MotionState::set(double X, double V)
 {
-	this->x = x;
-	this->v = v;
+	this->x = X;
+	this->v = V;
 	a = 0;
 }
 

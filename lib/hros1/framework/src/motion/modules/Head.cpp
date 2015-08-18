@@ -75,20 +75,20 @@ void Head::LoadINISettings(minIni* ini, const std::string &section)
 {
     double value = INVALID_VALUE;
 
-    if((value = ini->getd(section, "pan_p_gain", INVALID_VALUE)) != INVALID_VALUE)  m_Pan_p_gain = value;
-    if((value = ini->getd(section, "pan_d_gain", INVALID_VALUE)) != INVALID_VALUE)  m_Pan_d_gain = value;
-    if((value = ini->getd(section, "tilt_p_gain", INVALID_VALUE)) != INVALID_VALUE) m_Tilt_p_gain = value;
-    if((value = ini->getd(section, "tilt_d_gain", INVALID_VALUE)) != INVALID_VALUE) m_Tilt_d_gain = value;
-    if((value = ini->getd(section, "left_limit", INVALID_VALUE)) != INVALID_VALUE)  m_LeftLimit = value;
-    if((value = ini->getd(section, "right_limit", INVALID_VALUE)) != INVALID_VALUE) m_RightLimit = value;
-    if((value = ini->getd(section, "top_limit", INVALID_VALUE)) != INVALID_VALUE)   m_TopLimit = value;
-    if((value = ini->getd(section, "bottom_limit", INVALID_VALUE)) != INVALID_VALUE)m_BottomLimit = value;
-    if((value = ini->getd(section, "pan_home", INVALID_VALUE)) != INVALID_VALUE)    m_Pan_Home = value;
-    if((value = ini->getd(section, "tilt_home", INVALID_VALUE)) != INVALID_VALUE)   m_Tilt_Home = value;
+    if((value = ini->getd(section, "pan_p_gain", INVALID_VALUE)) > INVALID_VALUE)  m_Pan_p_gain = value;
+    if((value = ini->getd(section, "pan_d_gain", INVALID_VALUE)) > INVALID_VALUE)  m_Pan_d_gain = value;
+    if((value = ini->getd(section, "tilt_p_gain", INVALID_VALUE)) > INVALID_VALUE) m_Tilt_p_gain = value;
+    if((value = ini->getd(section, "tilt_d_gain", INVALID_VALUE)) > INVALID_VALUE) m_Tilt_d_gain = value;
+    if((value = ini->getd(section, "left_limit", INVALID_VALUE)) > INVALID_VALUE)  m_LeftLimit = value;
+    if((value = ini->getd(section, "right_limit", INVALID_VALUE)) > INVALID_VALUE) m_RightLimit = value;
+    if((value = ini->getd(section, "top_limit", INVALID_VALUE)) > INVALID_VALUE)   m_TopLimit = value;
+    if((value = ini->getd(section, "bottom_limit", INVALID_VALUE)) > INVALID_VALUE)m_BottomLimit = value;
+    if((value = ini->getd(section, "pan_home", INVALID_VALUE)) > INVALID_VALUE)    m_Pan_Home = value;
+    if((value = ini->getd(section, "tilt_home", INVALID_VALUE)) > INVALID_VALUE)   m_Tilt_Home = value;
 
-		if((value = ini->getd(section, "top_limit_line_following", INVALID_VALUE)) != INVALID_VALUE)   m_TopLimit_line_following = value;
-    if((value = ini->getd(section, "top_limit_robot_following", INVALID_VALUE)) != INVALID_VALUE)   m_TopLimit_robot_following = value;
-    if((value = ini->getd(section, "top_limit_soccer", INVALID_VALUE)) != INVALID_VALUE)   m_TopLimit_soccer = value;
+		if((value = ini->getd(section, "top_limit_line_following", INVALID_VALUE)) > INVALID_VALUE)   m_TopLimit_line_following = value;
+    if((value = ini->getd(section, "top_limit_robot_following", INVALID_VALUE)) > INVALID_VALUE)   m_TopLimit_robot_following = value;
+    if((value = ini->getd(section, "top_limit_soccer", INVALID_VALUE)) > INVALID_VALUE)   m_TopLimit_soccer = value;
 }
 
 void Head::SaveINISettings(minIni* ini)

@@ -5,10 +5,10 @@ class MotionState
 {
 public:
 	MotionState();
-	MotionState(double t, double x, double v);
+	MotionState(double T, double X, double V);
 	~MotionState(){};
 
-	void set(double x, double v);
+	void set(double X, double V);
 
 	double t;
 	double x;

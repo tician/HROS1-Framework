@@ -106,37 +106,37 @@ void Walking::LoadINISettings(minIni* ini, const std::string &section)
 {
     double value = INVALID_VALUE;
 
-    if((value = ini->getd(section, "x_offset", INVALID_VALUE)) != INVALID_VALUE)                X_OFFSET_START = X_OFFSET = value;
-    if((value = ini->getd(section, "y_offset", INVALID_VALUE)) != INVALID_VALUE)                Y_OFFSET = value;
-    if((value = ini->getd(section, "z_offset", INVALID_VALUE)) != INVALID_VALUE)                Z_OFFSET = value;
-    if((value = ini->getd(section, "roll_offset", INVALID_VALUE)) != INVALID_VALUE)             R_OFFSET = value;
-    if((value = ini->getd(section, "pitch_offset", INVALID_VALUE)) != INVALID_VALUE)            P_OFFSET = value;
-    if((value = ini->getd(section, "yaw_offset", INVALID_VALUE)) != INVALID_VALUE)              A_OFFSET = value;
-    if((value = ini->getd(section, "hip_pitch_offset", INVALID_VALUE)) != INVALID_VALUE)        HIP_PITCH_OFFSET = value;
-    if((value = ini->getd(section, "period_time", INVALID_VALUE)) != INVALID_VALUE)             PERIOD_TIME = value;
-    if((value = ini->getd(section, "dsp_ratio", INVALID_VALUE)) != INVALID_VALUE)               DSP_RATIO = value;
-    if((value = ini->getd(section, "step_forward_back_ratio", INVALID_VALUE)) != INVALID_VALUE) STEP_FB_RATIO = value;
-    if((value = ini->getd(section, "foot_height", INVALID_VALUE)) != INVALID_VALUE)             Z_MOVE_AMPLITUDE = value;
-    if((value = ini->getd(section, "swing_right_left", INVALID_VALUE)) != INVALID_VALUE)        Y_SWAP_AMPLITUDE = value;
-    if((value = ini->getd(section, "swing_top_down", INVALID_VALUE)) != INVALID_VALUE)          Z_SWAP_AMPLITUDE = value;
-    if((value = ini->getd(section, "pelvis_offset", INVALID_VALUE)) != INVALID_VALUE)           PELVIS_OFFSET = value;
-    if((value = ini->getd(section, "arm_swing_gain", INVALID_VALUE)) != INVALID_VALUE)          ARM_SWING_GAIN = value;
-    if((value = ini->getd(section, "balance_knee_gain", INVALID_VALUE)) != INVALID_VALUE)       BALANCE_KNEE_GAIN = value;
-    if((value = ini->getd(section, "balance_ankle_pitch_gain", INVALID_VALUE)) != INVALID_VALUE)BALANCE_ANKLE_PITCH_GAIN = value;
-    if((value = ini->getd(section, "balance_hip_roll_gain", INVALID_VALUE)) != INVALID_VALUE)   BALANCE_HIP_ROLL_GAIN = value;
-    if((value = ini->getd(section, "balance_ankle_roll_gain", INVALID_VALUE)) != INVALID_VALUE) BALANCE_ANKLE_ROLL_GAIN = value;
-    if((value = ini->getd(section, "balance_angle_smooth_gain", INVALID_VALUE)) != INVALID_VALUE) BALANCE_ANGLE_SMOOTH_GAIN = value;
-    if((value = ini->getd(section, "balance_angle_gain", INVALID_VALUE)) != INVALID_VALUE)      BALANCE_ANGLE_GAIN = value;
-    if((value = ini->getd(section, "lean_fb_gain", INVALID_VALUE)) != INVALID_VALUE) LEAN_FB = value;
-    if((value = ini->getd(section, "lean_fb_accel_gain", INVALID_VALUE)) != INVALID_VALUE) LEAN_FB_ACCEL = value;
-    if((value = ini->getd(section, "lean_turn_gain", INVALID_VALUE)) != INVALID_VALUE) LEAN_TURN = value;
-    if((value = ini->getd(section, "start_step_factor", INVALID_VALUE)) != INVALID_VALUE) START_STEP_FACTOR = value;
+    if((value = ini->getd(section, "x_offset", INVALID_VALUE)) > INVALID_VALUE)                X_OFFSET_START = X_OFFSET = value;
+    if((value = ini->getd(section, "y_offset", INVALID_VALUE)) > INVALID_VALUE)                Y_OFFSET = value;
+    if((value = ini->getd(section, "z_offset", INVALID_VALUE)) > INVALID_VALUE)                Z_OFFSET = value;
+    if((value = ini->getd(section, "roll_offset", INVALID_VALUE)) > INVALID_VALUE)             R_OFFSET = value;
+    if((value = ini->getd(section, "pitch_offset", INVALID_VALUE)) > INVALID_VALUE)            P_OFFSET = value;
+    if((value = ini->getd(section, "yaw_offset", INVALID_VALUE)) > INVALID_VALUE)              A_OFFSET = value;
+    if((value = ini->getd(section, "hip_pitch_offset", INVALID_VALUE)) > INVALID_VALUE)        HIP_PITCH_OFFSET = value;
+    if((value = ini->getd(section, "period_time", INVALID_VALUE)) > INVALID_VALUE)             PERIOD_TIME = value;
+    if((value = ini->getd(section, "dsp_ratio", INVALID_VALUE)) > INVALID_VALUE)               DSP_RATIO = value;
+    if((value = ini->getd(section, "step_forward_back_ratio", INVALID_VALUE)) > INVALID_VALUE) STEP_FB_RATIO = value;
+    if((value = ini->getd(section, "foot_height", INVALID_VALUE)) > INVALID_VALUE)             Z_MOVE_AMPLITUDE = value;
+    if((value = ini->getd(section, "swing_right_left", INVALID_VALUE)) > INVALID_VALUE)        Y_SWAP_AMPLITUDE = value;
+    if((value = ini->getd(section, "swing_top_down", INVALID_VALUE)) > INVALID_VALUE)          Z_SWAP_AMPLITUDE = value;
+    if((value = ini->getd(section, "pelvis_offset", INVALID_VALUE)) > INVALID_VALUE)           PELVIS_OFFSET = value;
+    if((value = ini->getd(section, "arm_swing_gain", INVALID_VALUE)) > INVALID_VALUE)          ARM_SWING_GAIN = value;
+    if((value = ini->getd(section, "balance_knee_gain", INVALID_VALUE)) > INVALID_VALUE)       BALANCE_KNEE_GAIN = value;
+    if((value = ini->getd(section, "balance_ankle_pitch_gain", INVALID_VALUE)) > INVALID_VALUE)BALANCE_ANKLE_PITCH_GAIN = value;
+    if((value = ini->getd(section, "balance_hip_roll_gain", INVALID_VALUE)) > INVALID_VALUE)   BALANCE_HIP_ROLL_GAIN = value;
+    if((value = ini->getd(section, "balance_ankle_roll_gain", INVALID_VALUE)) > INVALID_VALUE) BALANCE_ANKLE_ROLL_GAIN = value;
+    if((value = ini->getd(section, "balance_angle_smooth_gain", INVALID_VALUE)) > INVALID_VALUE) BALANCE_ANGLE_SMOOTH_GAIN = value;
+    if((value = ini->getd(section, "balance_angle_gain", INVALID_VALUE)) > INVALID_VALUE)      BALANCE_ANGLE_GAIN = value;
+    if((value = ini->getd(section, "lean_fb_gain", INVALID_VALUE)) > INVALID_VALUE) LEAN_FB = value;
+    if((value = ini->getd(section, "lean_fb_accel_gain", INVALID_VALUE)) > INVALID_VALUE) LEAN_FB_ACCEL = value;
+    if((value = ini->getd(section, "lean_turn_gain", INVALID_VALUE)) > INVALID_VALUE) LEAN_TURN = value;
+    if((value = ini->getd(section, "start_step_factor", INVALID_VALUE)) > INVALID_VALUE) START_STEP_FACTOR = value;
 
     int ivalue = INVALID_VALUE;
 
-    if((ivalue = ini->geti(section, "p_gain", INVALID_VALUE)) != INVALID_VALUE)                 P_GAIN = ivalue;
-    if((ivalue = ini->geti(section, "i_gain", INVALID_VALUE)) != INVALID_VALUE)                 I_GAIN = ivalue;
-    if((ivalue = ini->geti(section, "d_gain", INVALID_VALUE)) != INVALID_VALUE)                 D_GAIN = ivalue;
+    if((ivalue = ini->geti(section, "p_gain", INVALID_VALUE)) > INVALID_VALUE)                 P_GAIN = ivalue;
+    if((ivalue = ini->geti(section, "i_gain", INVALID_VALUE)) > INVALID_VALUE)                 I_GAIN = ivalue;
+    if((ivalue = ini->geti(section, "d_gain", INVALID_VALUE)) > INVALID_VALUE)                 D_GAIN = ivalue;
 }
 void Walking::SaveINISettings(minIni* ini)
 {

@@ -9,7 +9,7 @@ public:
 	QuadraticStateTransform();
 	~QuadraticStateTransform(){};
 
-	void setA(double A);
+	void setA(double a);
 	void setStartState(double x, double v);
 	void setTargetState(double x, double v);
 

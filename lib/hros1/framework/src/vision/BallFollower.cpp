@@ -5,6 +5,7 @@
  *
  */
 
+#include <math.h>
 #include <stdio.h>
 #include "ImgProcess.h"
 #include "MX28.h"
@@ -54,7 +55,7 @@ void BallFollower::Process(Point2D ball_pos)
 	if(DEBUG_PRINT == true)
 		fprintf(stderr, "\r                                                                               \r");
 
-    if(ball_pos.X == -1.0 || ball_pos.Y == -1.0)
+    if( (fabs(ball_pos.X+1.0)< 0.0001) || (fabs(ball_pos.Y+1.0)< 0.0001) )
     {
 		KickBall = 0;
 

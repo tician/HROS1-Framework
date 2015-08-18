@@ -95,7 +95,7 @@ bool Matrix3D::Inverse()
     /* calculate determinant */
     det = src.m[0]*dst.m[0] + src.m[1]*dst.m[1] + src.m[2]*dst.m[2] + src.m[3]*dst.m[3];
     /* calculate matrix inverse */
-    if (det == 0)
+    if ( fabs(det) < 0.0001)
     {
         det = 0;
         return false;

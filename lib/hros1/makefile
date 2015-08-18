@@ -1,3 +1,8 @@
+ifeq (,$(filter _%,$(notdir $(CURDIR))))
+include target.mk
+else
+
+VPATH = $(SRCDIR)
 
 #~~~~~~~~~~~~~~~~~~~~ Output File Name ~~~~~~~~~~~~~~~~~~~~
 PROJECT_NAME = hros1
@@ -29,9 +34,9 @@ SRCS = \
         framework/src/vision/ColorFinder.cpp    \
         framework/src/vision/Image.cpp          \
         framework/src/vision/ImgProcess.cpp     \
-        framework/src/controller/JoystickController.cpp \
+        framework/src/controller/PS3Controller.cpp \
         framework/src/commander/SerialInputCommander.cpp    \
-        framework/src/minIni/minIni.cpp \
+        framework/src/minIni/minIni.c \
         linux/src/LinuxActionScript.cpp   \
         linux/src/LinuxCamera.cpp   \
         linux/src/LinuxCM730.cpp    \
@@ -39,41 +44,59 @@ SRCS = \
         linux/src/LinuxNetwork.cpp
 
 #~~~~~~~~~~~~~~~~~~~~ Object Files ~~~~~~~~~~~~~~~~~~~~
-BINDIR = bin
+#BINDIR = bin
 OBJDIR = obj
 
-TARGET = $(BINDIR)/$(PROJECT_NAME)
+TARGET := $(PROJECT_NAME).a
 
 CSRCS = $(filter %.c,$(SRCS))
-CPPSRCS = $(filter %.cpp,$(SRCS))
-RAWOBJS = $(CSRCS:.c=.c.o) $(CPPSRCS:.cpp=.cpp.o)
-OBJS = $(addprefix $(OBJDIR)/,$(RAWOBJS))
+CXXSRCS = $(filter %.cpp,$(SRCS))
+OBJS = $(CSRCS:.c=.c.o) $(CXXSRCS:.cpp=.cpp.o)
+#OBJS = $(notdir $(RAWOBJS))
+
+#RAWOBJS = $(CSRCS:.c=.c.o) $(CXXSRCS:.cpp=.cpp.o)
+#OBJS = $(addprefix $(OBJDIR)/,$(RAWOBJS))
+
+#COBJS = $(addprefix $(OBJDIR)/, $(CSRCS:.c=.c.o) )
+#CXXOBJS = $(addprefix $(OBJDIR)/, $(CXXSRCS:.cpp=.cpp.o) )
+#COBJS = $(CSRCS:.c=.c.o)
+#CXXOBJS = $(CXXSRCS:.cpp=.cpp.o)
+#COBJS = $(addprefix $(OBJDIR)/, $(CSRCS:.c=.o) )
+#CXXOBJS = $(addprefix $(OBJDIR)/, $(CXXSRCS:.cpp=.o) )
+
 
 #~~~~~~~~~~~~~~~~~~~~ Include Directories ~~~~~~~~~~~~~~~~~~~~
-INCLUDE_DIRS = -I. -I./framework/include -I./linux/include
+INCLUDE_DIRS = -I. -I$(VPATH)/framework/include -I$(VPATH)/linux/include
+# -I$(VPATH)/framework/src/minIni
 
 #~~~~~~~~~~~~~~~~~~~~ Library Directories ~~~~~~~~~~~~~~~~~~~~
 LIBRARY_DIRS = -L.
 LIBS = 
 
 #~~~~~~~~~~~~~~~~~~~~ Compiler Options ~~~~~~~~~~~~~~~~~~~~
-COMPILE_OPTS = -g -O3 -fno-common
+COMPILE_OPTS = -g -O2 -fno-common -std=gnu++0x
 COMPILE_OPTS += -Wall -Wextra -Wmain -pedantic -pedantic-errors -Wshadow -Winit-self -Wredundant-decls -Wcast-align -Wundef -Wfloat-equal -Winline -Wunreachable-code -Wmissing-declarations -Wmissing-include-dirs -Wswitch-enum -Wswitch-default
+COMPILE_OPTS += -fPIC -shared -DLINUX -D_GNU_SOURCE -Wall -g 
 
 #~~~~~~~~~~~~~~~~~~~~ Linker Options ~~~~~~~~~~~~~~~~~~~~
 LINKER_OPTS = -s -ldl -lrt
+LINKER_OPTS += -g -lpthread -ldl -lbluetooth -lncurses -lusb
+
+
+# Compiler flags to generate dependency files. 
+GENDEPFLAGS = -MMD -MP -MF .dep/$(@F).d
 
 #~~~~~~~~~~~~~~~~~~~~ Toolchain Prefix ~~~~~~~~~~~~~~~~~~~~
 TCHAIN_PREFIX=
 
 CC = $(TCHAIN_PREFIX)gcc
-CFLAGS = $(INCLUDE_DIRS) $(COMPILE_OPTS)
+CFLAGS = $(GENDEPFLAGS) $(INCLUDE_DIRS) $(COMPILE_OPTS)
 
 CXX = $(TCHAIN_PREFIX)g++
-CXXFLAGS = $(INCLUDE_DIRS) $(COMPILE_OPTS)
+CXXFLAGS = $(GENDEPFLAGS) $(INCLUDE_DIRS) $(COMPILE_OPTS)
 
 AS = $(TCHAIN_PREFIX)gcc
-ASFLAGS = $(COMPILE_OPTS) -c
+ASFLAGS = $(GENDEPFLAGS) $(COMPILE_OPTS) -c
 
 LD = $(TCHAIN_PREFIX)gcc
 LDFLAGS = $(INCLUDE_DIRS) $(LIBRARY_DIRS) $(LIBS) $(LINKER_OPTS)
@@ -112,32 +135,82 @@ MSG_EXTENDED_LISTING = Creating Extended Listing:
 MSG_SYMBOL_TABLE = Creating Symbol Table:
 MSG_LINKING = Linking:
 MSG_COMPILING = Compiling C:
-MSG_COMPILING_CPP = Compiling C++:
+MSG_COMPILING_CXX = Compiling C++:
 MSG_ASSEMBLING = Assembling:
 MSG_CLEANING = Cleaning project:
 MSG_CREATING_LIBRARY = Creating library:
 
 #~~~~~~~~~~~~~~~~~~~~ all ~~~~~~~~~~~~~~~~~~~~
-all: begin gccversion spotcheck sizebefore build sizeafter end
+_hros1_blobs: all
+all: begin gccversion spotcheck sizebefore filenames build sizeafter end
 
 #~~~~~~~~~~~~~~~~~~~~ build ~~~~~~~~~~~~~~~~~~~~
 spotcheck:
 	@echo $(MSG_BUILD_DIRS)
-	test -d $(BINDIR) || mkdir -p $(BINDIR)
+#	test -d $(BINDIR) || mkdir -p $(BINDIR)
 	test -d $(OBJDIR) || mkdir -p $(OBJDIR)
 	@echo
 
-build: $(TARGET)
+filenames:
+	@echo $(VPATH)
+	@echo $(CSRCS)
+	@echo $(CXXSRCS)
+	@echo $(OBJS)
+#	@echo $(COBJS)
+#	@echo $(CXXOBJS)
+	@echo 
+
+build: $(TARGET) 
 
 $(TARGET): $(OBJS)
+#$(TARGET): $(COBJS) $(CXXOBJS)
+#$(TARGET): $(CSRCS) $(CXXSRCS)
 #	$(CXX) -o $@ $(OBJS) $(LDFLAGS)
-	$(AR) $(ARFLAGS) $(TARGET) $(OBJS) 
+#	$(AR) $(ARFLAGS) $@ $(OBJDIR)/$(OBJS)
+	$(AR) $(ARFLAGS) $@ $(addprefix $(OBJDIR)/,$(notdir $(OBJS)))
+#	$(AR) $(ARFLAGS) $@ $(OBJDIR)/$(COBJS) $(OBJDIR)/$(CXXOBJS) 
+#	$(AR) $(ARFLAGS) $@ $(COBJS) $(CXXOBJS)
 
-%.c.o: $(CSRCS)
-	$(CC) $(CFLAGS) -c $< -o $@
+#PS3Controller: JoystickController.cpp.o
+#	make -C framework/src/controller
+#	$(CC) $(CFLAGS) -c $< -o $(OBJDIR)/$(notdir $@)
+#	$(CXX) JoystickController.cpp.o $(LDFLAGS) -o $@
 
-%.cpp.o: $(CPPSRCS)
-	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+#JoystickController.cpp.o: 
+#	make -C framework/src/controller
+
+
+%.c.o: %.c
+#%.c.o: $(CSRCS)
+#$(COBJS): %.c.o: %.c
+#$(filter %.c.o,$(OBJS)): %.c.o: %.c
+#$(COBJS): $(subst obj/,,$(CSRCS))
+#$(filter %.c.o,$(OBJS)): %.c.o: $(subst obj/,,%.c)
+#%.c.o: $(subst obj/,,%.c)
+#$(filter .c.o,$(OBJS)): $(OBJDIR)/%.c.o: %.c
+#$(COBJS): $(OBJDIR)/%.o: %.c
+#	$(CC) $(CFLAGS) -c $< -o $(OBJDIR)/$@
+#	$(CC) -o $@ -c $< $(CFLAGS)
+#	$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) -c $< -o $(OBJDIR)/$(notdir $@)
+
+%.cpp.o: %.cpp
+#%.cpp.o: $(CXXSRCS)
+#$(CXXOBJS): %.cpp.o: %.cpp
+#$(filter %.cpp.o,$(OBJS)): %.cpp.o: %.cpp
+#$(CXXOBJS): $(CXXSRCS)
+#$(filter %.cpp.o,$(OBJS)): %.cpp.o: $(subst obj/,,%.cpp)
+#%.cpp.o: $(subst obj/,,%.cpp)
+#$(filter .cpp.o,$(OBJS)): $(OBJDIR)/%.cpp.o: %.cpp
+#$(CXXOBJS): $(OBJDIR)/%.o: %.cpp
+#	$(CXX) $(CXXFLAGS) -c $< -o $(OBJDIR)/$@
+#	$(CXX) -o $@ -c $< $(CXXFLAGS)
+#	$(CXX) $(CXXFLAGS) -c $< -o $@
+	$(CXX) $(CXXFLAGS) -c $< -o $(OBJDIR)/$(notdir $@)
+
+
+
 
 #~~~~~~~~~~~~~~~~~~~~ Eye candy ~~~~~~~~~~~~~~~~~~~~
 begin:
@@ -167,10 +240,14 @@ gccversion :
 clean: begin clean_list end
 
 clean_list:
-	rm -f $(OBJS)
-	rm -f $(TARGET)
+#	rm -f $(OBJS)
+#	rm -f $(TARGET)
 	rm -rf $(OBJDIR)
-	rm -rf $(BINDIR)
+#	rm -rf $(BINDIR)
+	rm -rf .dep
+
+install:
+	mv $(TARGET) ../
 
 #~~~~~~~~~~~~~~~~~~~~ backup ~~~~~~~~~~~~~~~~~~~~
 backup: clean
@@ -179,3 +256,8 @@ backup: clean
 #~~~~~~~~~~~~~~~~~~~~ phony ~~~~~~~~~~~~~~~~~~~~
 .PHONY: all
 
+# Include the dependency files. 
+-include $(shell mkdir .dep 2>/dev/null) $(wildcard .dep/*)
+
+
+endif

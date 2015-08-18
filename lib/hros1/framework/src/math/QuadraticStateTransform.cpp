@@ -16,9 +16,9 @@ QuadraticStateTransform::QuadraticStateTransform()
 }
 
 // Sets the acceleration limit to A.
-void QuadraticStateTransform::setA(double A)
+void QuadraticStateTransform::setA(double a)
 {
-	this->A = A;
+	this->A = a;
 }
 
 // Sets the start state to position x and velocity v.

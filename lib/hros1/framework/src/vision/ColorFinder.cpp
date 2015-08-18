@@ -100,15 +100,15 @@ void ColorFinder::LoadINISettings(minIni* ini)
 void ColorFinder::LoadINISettings(minIni* ini, const std::string &section)
 {
     int value = -2;
-    if((value = ini->geti(section, "hue", INVALID_VALUE)) != INVALID_VALUE)             m_hue = value;
-    if((value = ini->geti(section, "hue_tolerance", INVALID_VALUE)) != INVALID_VALUE)   m_hue_tolerance = value;
-    if((value = ini->geti(section, "min_saturation", INVALID_VALUE)) != INVALID_VALUE)  m_min_saturation = value;
-    if((value = ini->geti(section, "max_saturation", INVALID_VALUE)) != INVALID_VALUE)  m_max_saturation = value;
-    if((value = ini->geti(section, "min_value", INVALID_VALUE)) != INVALID_VALUE)       m_min_value = value;
+    if((value = ini->geti(section, "hue", INVALID_VALUE)) > INVALID_VALUE)             m_hue = value;
+    if((value = ini->geti(section, "hue_tolerance", INVALID_VALUE)) > INVALID_VALUE)   m_hue_tolerance = value;
+    if((value = ini->geti(section, "min_saturation", INVALID_VALUE)) > INVALID_VALUE)  m_min_saturation = value;
+    if((value = ini->geti(section, "max_saturation", INVALID_VALUE)) > INVALID_VALUE)  m_max_saturation = value;
+    if((value = ini->geti(section, "min_value", INVALID_VALUE)) > INVALID_VALUE)       m_min_value = value;
 
     double dvalue = -2.0;
-    if((dvalue = ini->getd(section, "min_percent", INVALID_VALUE)) != INVALID_VALUE)    m_min_percent = dvalue;
-    if((dvalue = ini->getd(section, "max_percent", INVALID_VALUE)) != INVALID_VALUE)    m_max_percent = dvalue;
+    if((dvalue = ini->getd(section, "min_percent", INVALID_VALUE)) > INVALID_VALUE)    m_min_percent = dvalue;
+    if((dvalue = ini->getd(section, "max_percent", INVALID_VALUE)) > INVALID_VALUE)    m_max_percent = dvalue;
 
     color_section = section;
 }

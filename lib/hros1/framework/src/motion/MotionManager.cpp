@@ -18,6 +18,7 @@ using namespace Robot;
 // Torque adaption every second
 const int TORQUE_ADAPTION_CYCLES = 1000 / MotionModule::TIME_UNIT;
 const int DEST_TORQUE = 1023;
+const int FULL_TORQUE_VOLTAGE = 130; 
 
 //#define LOG_VOLTAGES 1
 
@@ -37,7 +38,7 @@ MotionManager::MotionManager() :
     for(int i = 0; i < JointData::NUMBER_OF_JOINTS; i++)
         m_Offset[i] = 0;
 
-#if LOG_VOLTAGES
+#ifdef LOG_VOLTAGES
     assert((m_voltageLog = fopen("voltage.log", "w")));
     fprintf(m_voltageLog, "Voltage   Torque\n");
 #endif
@@ -173,7 +174,7 @@ void MotionManager::LoadINISettings(minIni* ini, const std::string &section)
     {
         char key[10];
         sprintf(key, "ID_%.2d", i);
-        if((ivalue = ini->geti(section, key, INVALID_VALUE)) != INVALID_VALUE)  m_Offset[i] = ivalue;
+        if((ivalue = ini->geti(section, key, INVALID_VALUE)) > INVALID_VALUE)  m_Offset[i] = ivalue;
     }
 		m_angleEstimator.LoadINISettings(ini, section + "_angle");
 }
@@ -434,9 +435,9 @@ void MotionManager::SetJointDisable(int index)
 
 void MotionManager::adaptTorqueToVoltage()
 {
-    const int DEST_TORQUE = 1023;
+//    const int DEST_TORQUE = 1023; // already global
 	// 13V - at 13V darwin will make no adaptation as the standard 3 cell battery is always below this voltage, this implies Nimbro-OP runs on 4 cells
-    const int FULL_TORQUE_VOLTAGE = 130; 
+//    const int FULL_TORQUE_VOLTAGE = 130; 
     int voltage;
 		// torque is only reduced if it is greater then FULL_TORQUE_VOLTAGE
     if(m_CM730->ReadByte(CM730::ID_CM, CM730::P_VOLTAGE, &voltage, 0) != CM730::SUCCESS)
@@ -446,7 +447,7 @@ void MotionManager::adaptTorqueToVoltage()
     m_voltageAdaptionFactor = ((double)FULL_TORQUE_VOLTAGE) / voltage;
     int torque = m_voltageAdaptionFactor * DEST_TORQUE;
 
-#if LOG_VOLTAGES
+#ifdef LOG_VOLTAGES
     fprintf(m_voltageLog, "%3d       %4d\n", voltage, torque);
 #endif
 
