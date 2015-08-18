@@ -17,14 +17,14 @@
 #include "StatusCheck.h"
 
 #ifdef MX28_1024
-#define MOTION_FILE_PATH    ((char *)"../../../Data/motion_1024.bin")
+#define MOTION_FILE_PATH	((char *)"../../data/motion_1024.bin")
 #else
-#define MOTION_FILE_PATH    ((char *)"../../../Data/motion_4096.bin")
+#define MOTION_FILE_PATH	((char *)"../../data/motion_4096.bin")
 #endif
-#define INI_FILE_PATH       ((char *)"../../../Data/config.ini")
+#define INI_FILE_PATH		((char *)"../../data/config.ini")
 
-#define M_INI	((char *)"../../../Data/slow-walk.ini")
-#define SCRIPT_FILE_PATH    "script.asc"
+#define M_INI				((char *)"../../data/slow-walk.ini")
+#define SCRIPT_FILE_PATH	"script.asc"
 
 #define U2D_DEV_NAME0       "/dev/ttyUSB0"
 #define U2D_DEV_NAME1       "/dev/ttyUSB1"
@@ -99,7 +99,7 @@ int main(int argc, char *argv[])
 
 		//conversion! ////////////////
 		/*
-		Action::GetInstance()->LoadFile("../../../Data/motion.bin");
+		Action::GetInstance()->LoadFile("../../data/motion.bin");
 		int j,k,p,a;
 		double f;		
 		for(k=0;k<Action::MAXNUM_PAGE;k++)
@@ -128,7 +128,7 @@ int main(int argc, char *argv[])
 		if(argc>1 && strcmp(argv[1],"-copy")==0)
 			{
 			printf("Page copy -- uses files motion_src.bin and motion_dest.bin\n");
-			if(Action::GetInstance()->LoadFile((char *)"../../../Data/motion_src.bin") == false)
+			if(Action::GetInstance()->LoadFile((char *)"../../data/motion_src.bin") == false)
 				{
 				printf("Unable to open source file\n");
 				exit(1);
@@ -145,7 +145,7 @@ int main(int argc, char *argv[])
 					printf("Unable to load page %d\n",k);
 					exit(1);
 					}
-				if(Action::GetInstance()->LoadFile((char *)"../../../Data/motion_dest.bin") == false)
+				if(Action::GetInstance()->LoadFile((char *)"../../data/motion_dest.bin") == false)
 					{
 					printf("Unable to open destination file\n");
 					exit(1);
@@ -169,7 +169,7 @@ int main(int argc, char *argv[])
     cm730.WriteByte(CM730::P_LED_PANNEL, 0x01|0x02|0x04, NULL);
 
     PS3Controller_Start();
-		LinuxActionScript::PlayMP3("../../../Data/mp3/ready.mp3");
+		LinuxActionScript::PlayMP3("../../data/mp3/ready.mp3");
     Action::GetInstance()->Start(15);
     while(Action::GetInstance()->IsRunning()) usleep(8*1000);
 */

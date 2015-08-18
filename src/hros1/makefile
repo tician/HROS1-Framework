@@ -246,8 +246,13 @@ clean_list:
 #	rm -rf $(BINDIR)
 	rm -rf .dep
 
-install:
-	mv $(TARGET) ../
+install: really_install clean
+
+really_install:
+#	mv $(TARGET) ../$(TARGET)
+	cp $(TARGET) ../../../lib/$(TARGET)
+	ln -s $(VPATH)/framework/include ../../../include/hros1_framework
+	ln -s $(VPATH)/linux/include ../../../include/hros1_linux
 
 #~~~~~~~~~~~~~~~~~~~~ backup ~~~~~~~~~~~~~~~~~~~~
 backup: clean

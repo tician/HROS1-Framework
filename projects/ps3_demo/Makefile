@@ -9,10 +9,10 @@
 
 TARGET = demo
 
-INCLUDE_DIRS = -I../../include -I../../../Framework/include
+INCLUDE_DIRS = -I../../include/hros1_framework -I../../include/hros1_linux
 
 CXX = g++
-CXXFLAGS += -g -O2 -DLINUX -Wall $(INCLUDE_DIRS)
+CXXFLAGS += -g -O2 -DLINUX -Wall -std=gnu++0x $(INCLUDE_DIRS)
 #CXXFLAGS += -O2 -DDEBUG -DLINUX -Wall $(INCLUDE_DIRS)
 LFLAGS += -g -lpthread -ljpeg -lrt -lbluetooth
 
@@ -23,16 +23,19 @@ all: $(TARGET)
 clean:
 	rm -f *.a *.o $(TARGET) core *~ *.so *.lo
 
-libclean:
-	make -C ../../build clean
+#libclean:
+#	make -C ../../src/hros1 clean
 
-distclean: clean libclean
+#distclean: clean libclean
 
-darwin.a:
-	make -C ../../build
+hros1.a:
+	make -C ../../src/hros1
+	make -C ../../src/hros1 install
 
-$(TARGET): darwin.a $(OBJECTS)
-	$(CXX) $(CFLAGS) $(OBJECTS) ../../lib/darwin.a -o $(TARGET) $(LFLAGS)
+
+$(TARGET): $(OBJECTS) 
+#hros1.a
+	$(CXX) $(CFLAGS) $(OBJECTS) ../../lib/hros1.a -o $(TARGET) $(LFLAGS)
 	chmod 755 $(TARGET)
 
 # useful to make a backup "make tgz"

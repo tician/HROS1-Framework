@@ -7,7 +7,7 @@
 
 #OBJDIR := _$(_ARCH)obj
 #OBJDIR := _obj
-OBJDIR := ../_hros1_blobs
+OBJDIR := _blobs
 
 ifndef MAKECMDGOALS
 MAKECMDGOALS = all
