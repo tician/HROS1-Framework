@@ -389,11 +389,18 @@ int LinuxCamera::ReadFrame()
     assert (buf.index < n_buffers);
 
     //process_image (buffers[buf.index].start);
-    for(int i = 0; i < fbuffer->m_YUVFrame->m_ImageSize; i++)
-        fbuffer->m_YUVFrame->m_ImageData[i] = ((unsigned char*)buffers[buf.index].start)[i];
+	for(int i = 0; i < fbuffer->m_YUVFrame->m_ImageSize; i++)
+	{
+		//if (i >= buffers[buf.index].length)		// WTF!? Why sometimes crash now?
+		int tempLength = (int) buffers[buf.index].length;
+		if (i >= tempLength)		// WTF!? Why sometimes crash now?
+			break;
+
+		fbuffer->m_YUVFrame->m_ImageData[i] = ((unsigned char*)buffers[buf.index].start)[i];
+	}
     //ImgProcess::HFlipYUV(fbuffer->m_YUVFrame);
     //ImgProcess::VFlipYUV(fbuffer->m_YUVFrame);
-		ImgProcess::HVFlipYUV(fbuffer->m_YUVFrame);
+	ImgProcess::HVFlipYUV(fbuffer->m_YUVFrame);
     ImgProcess::YUVtoRGB(fbuffer);
     ImgProcess::RGBtoHSV(fbuffer);
 

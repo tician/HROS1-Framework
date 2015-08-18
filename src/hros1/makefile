@@ -64,6 +64,7 @@ OBJS = $(CSRCS:.c=.c.o) $(CXXSRCS:.cpp=.cpp.o)
 #COBJS = $(addprefix $(OBJDIR)/, $(CSRCS:.c=.o) )
 #CXXOBJS = $(addprefix $(OBJDIR)/, $(CXXSRCS:.cpp=.o) )
 
+DEPS = $(OBJS:.o,.d)
 
 #~~~~~~~~~~~~~~~~~~~~ Include Directories ~~~~~~~~~~~~~~~~~~~~
 INCLUDE_DIRS = -I. -I$(VPATH)/framework/include -I$(VPATH)/linux/include
@@ -75,7 +76,7 @@ LIBS =
 
 #~~~~~~~~~~~~~~~~~~~~ Compiler Options ~~~~~~~~~~~~~~~~~~~~
 COMPILE_OPTS = -g -O2 -fno-common -std=gnu++0x
-COMPILE_OPTS += -Wall -Wextra -Wmain -pedantic -pedantic-errors -Wshadow -Winit-self -Wredundant-decls -Wcast-align -Wundef -Wfloat-equal -Winline -Wunreachable-code -Wmissing-declarations -Wmissing-include-dirs -Wswitch-enum -Wswitch-default
+COMPILE_OPTS += -Wall -Wextra -Wmain -pedantic -pedantic-errors -Wshadow -Winit-self -Wredundant-decls -Wcast-align -Wundef -Wfloat-equal -Winline -Wunreachable-code -Wmissing-declarations -Wmissing-include-dirs -Wswitch-enum -Wswitch-default -Wparentheses
 COMPILE_OPTS += -fPIC -shared -DLINUX -D_GNU_SOURCE -Wall -g 
 
 #~~~~~~~~~~~~~~~~~~~~ Linker Options ~~~~~~~~~~~~~~~~~~~~
@@ -84,7 +85,12 @@ LINKER_OPTS += -g -lpthread -ldl -lbluetooth -lncurses -lusb
 
 
 # Compiler flags to generate dependency files. 
-GENDEPFLAGS = -MMD -MP -MF .dep/$(@F).d
+#GENDEPFLAGS = -MMD -MP -MF .dep/$(@F).d
+GENDEPFLAGS = -MMD -MP
+
+# Include the dependency files. 
+#-include $(shell mkdir .dep 2>/dev/null) $(wildcard .dep/*)
+-include $(patsubst %.o,%.d,$(OBJS))
 
 #~~~~~~~~~~~~~~~~~~~~ Toolchain Prefix ~~~~~~~~~~~~~~~~~~~~
 TCHAIN_PREFIX=
@@ -141,14 +147,13 @@ MSG_CLEANING = Cleaning project:
 MSG_CREATING_LIBRARY = Creating library:
 
 #~~~~~~~~~~~~~~~~~~~~ all ~~~~~~~~~~~~~~~~~~~~
-_hros1_blobs: all
 all: begin gccversion spotcheck sizebefore filenames build sizeafter end
 
 #~~~~~~~~~~~~~~~~~~~~ build ~~~~~~~~~~~~~~~~~~~~
 spotcheck:
 	@echo $(MSG_BUILD_DIRS)
 #	test -d $(BINDIR) || mkdir -p $(BINDIR)
-	test -d $(OBJDIR) || mkdir -p $(OBJDIR)
+#	test -d $(OBJDIR) || mkdir -p $(OBJDIR)
 	@echo
 
 filenames:
@@ -163,11 +168,13 @@ filenames:
 build: $(TARGET) 
 
 $(TARGET): $(OBJS)
+#$(TARGET): $(addprefix $(OBJDIR)/,$(notdir $(OBJS)))
 #$(TARGET): $(COBJS) $(CXXOBJS)
 #$(TARGET): $(CSRCS) $(CXXSRCS)
 #	$(CXX) -o $@ $(OBJS) $(LDFLAGS)
 #	$(AR) $(ARFLAGS) $@ $(OBJDIR)/$(OBJS)
-	$(AR) $(ARFLAGS) $@ $(addprefix $(OBJDIR)/,$(notdir $(OBJS)))
+#	$(AR) $(ARFLAGS) $@ $(addprefix $(OBJDIR)/,$(notdir $(OBJS)))
+	$(AR) $(ARFLAGS) $@ $(OBJS)
 #	$(AR) $(ARFLAGS) $@ $(OBJDIR)/$(COBJS) $(OBJDIR)/$(CXXOBJS) 
 #	$(AR) $(ARFLAGS) $@ $(COBJS) $(CXXOBJS)
 
@@ -192,8 +199,9 @@ $(TARGET): $(OBJS)
 #$(COBJS): $(OBJDIR)/%.o: %.c
 #	$(CC) $(CFLAGS) -c $< -o $(OBJDIR)/$@
 #	$(CC) -o $@ -c $< $(CFLAGS)
-#	$(CC) $(CFLAGS) -c $< -o $@
-	$(CC) $(CFLAGS) -c $< -o $(OBJDIR)/$(notdir $@)
+	@[ -d $(dir $@) ] || ( mkdir -p $(dir $@) )
+	$(CC) $(CFLAGS) -c $< -o $@
+#	$(CC) $(CFLAGS) -c $< -o $(OBJDIR)/$(notdir $@)
 
 %.cpp.o: %.cpp
 #%.cpp.o: $(CXXSRCS)
@@ -206,8 +214,9 @@ $(TARGET): $(OBJS)
 #$(CXXOBJS): $(OBJDIR)/%.o: %.cpp
 #	$(CXX) $(CXXFLAGS) -c $< -o $(OBJDIR)/$@
 #	$(CXX) -o $@ -c $< $(CXXFLAGS)
-#	$(CXX) $(CXXFLAGS) -c $< -o $@
-	$(CXX) $(CXXFLAGS) -c $< -o $(OBJDIR)/$(notdir $@)
+	@[ -d $(dir $@) ] || ( mkdir -p $(dir $@) )
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+#	$(CXX) $(CXXFLAGS) -c $< -o $(OBJDIR)/$(notdir $@)
 
 
 
@@ -240,11 +249,12 @@ gccversion :
 clean: begin clean_list end
 
 clean_list:
-#	rm -f $(OBJS)
-#	rm -f $(TARGET)
-	rm -rf $(OBJDIR)
+	rm -f $(OBJS)
+	rm -f $(DEPS)
+	rm -f $(TARGET)
+#	rm -rf $(OBJDIR)
 #	rm -rf $(BINDIR)
-	rm -rf .dep
+#	rm -rf .dep
 
 install: really_install clean
 
@@ -259,10 +269,6 @@ backup: clean
 	tar cJvf ../$(PROJECT_NAME)_`date +"%Y-%m-%d_%H%M"`.tar.xz *
 
 #~~~~~~~~~~~~~~~~~~~~ phony ~~~~~~~~~~~~~~~~~~~~
-.PHONY: all
-
-# Include the dependency files. 
--include $(shell mkdir .dep 2>/dev/null) $(wildcard .dep/*)
-
+.PHONY: all build clean
 
 endif
