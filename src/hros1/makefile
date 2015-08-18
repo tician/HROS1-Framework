@@ -229,7 +229,7 @@ sizebefore:
 
 sizeafter:
 	@if test -f $(TARGET); then echo;		\
-	echo $(MSG_SIZE_AFTER);				\
+	echo $(MSG_SIZE_AFTER);					\
 	$(SIZE) $(TARGET);						\
 	2>/dev/null; echo; fi
 
